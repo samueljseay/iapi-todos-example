@@ -6,11 +6,18 @@ $todos = get_transient('my_todo_list');
 
 ?>
 <div 
-	data-wp-interactive="iapi-todos"
+	data-wp-interactive="iapi-todos"	
+	<?php echo get_block_wrapper_attributes(); ?>
+	<?php echo wp_interactivity_data_wp_context( array() ); ?>
 >
-	<p <?php echo get_block_wrapper_attributes(); ?>>
+	<p >
 		<?php if (!empty($todos)): ?>
 			<ul>
+					<label>Add new todo:</label>
+					<input type="text" />
+					<input type="date" />
+					<button>Add</button>
+					
 					<?php foreach ($todos as $todo): ?>
 							<li>
 									<?php echo esc_html($todo['description']); ?> - 
