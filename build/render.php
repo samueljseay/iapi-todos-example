@@ -5,10 +5,8 @@
 $todos = get_transient('my_todo_list');
 
 ?>
-<div 
-	data-wp-interactive="iapi-todos"	
-	<?php echo get_block_wrapper_attributes(); ?>
-	<?php echo wp_interactivity_data_wp_context( array("todos" => $todos) ); ?>
+<div 	
+	<?php echo get_block_wrapper_attributes(); ?>	
 >
 	<?php if (!empty($todos)): ?>
 		<ul>
@@ -16,6 +14,7 @@ $todos = get_transient('my_todo_list');
 				<input type="text" />
 				<input type="date" />
 				<button>Add</button>
+				<hr />
 				
 				<?php foreach ($todos as $todo): ?>
 						<li>
@@ -23,8 +22,12 @@ $todos = get_transient('my_todo_list');
 								<strong><?php echo $todo['is_completed'] ? esc_html__('Completed', 'todolist') : esc_html__('Pending', 'todolist'); ?></strong> - 
 								Due: <?php echo esc_html($todo['due_date']); ?>
 
-								<label>Mark as completed: </label>
-								<input type="checkbox" <?php echo $todo['is_completed'] ? 'checked' : ''; ?> />
+								<div>
+									<label>Mark as completed: </label>
+									<input type="checkbox" <?php echo $todo['is_completed'] ? 'checked' : ''; ?> />
+								</div>
+
+								<hr />
 						</li>
 				<?php endforeach; ?>
 		</ul>
