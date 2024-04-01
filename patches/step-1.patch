@@ -1,0 +1,53 @@
+diff --git a/build/view.asset.php b/build/view.asset.php
+index 94ca531..eede551 100644
+--- a/build/view.asset.php
++++ b/build/view.asset.php
+@@ -1 +1 @@
+-<?php return array('dependencies' => array('@wordpress/interactivity'), 'version' => '8f604aa74e9931c35d4a', 'type' => 'module');
++<?php return array('dependencies' => array('@wordpress/interactivity'), 'version' => 'bacade8ce79b98fecbe7', 'type' => 'module');
+diff --git a/build/view.js b/build/view.js
+index a450e77..60f04ab 100644
+--- a/build/view.js
++++ b/build/view.js
+@@ -1 +1 @@
+-import*as o from"@wordpress/interactivity";var r={d:(o,e)=>{for(var t in e)r.o(e,t)&&!r.o(o,t)&&Object.defineProperty(o,t,{enumerable:!0,get:e[t]})},o:(o,r)=>Object.prototype.hasOwnProperty.call(o,r)};var e,t;(0,(e={store:()=>o.store},t={},r.d(t,e),t).store)("iapi-todos",{actions:{},callbacks:{helloWorld:()=>{console.log("Hello world!!")}}});
+\ No newline at end of file
++import*as o from"@wordpress/interactivity";var r={d:(o,e)=>{for(var t in e)r.o(e,t)&&!r.o(o,t)&&Object.defineProperty(o,t,{enumerable:!0,get:e[t]})},o:(o,r)=>Object.prototype.hasOwnProperty.call(o,r)};var e,t;(0,(e={store:()=>o.store},t={},r.d(t,e),t).store)("iapi-todos",{actions:{},callbacks:{helloWorld:()=>{console.log("Hello world!")}}});
+\ No newline at end of file
+diff --git a/src/render.php b/src/render.php
+index 750fcc3..1f6df74 100644
+--- a/src/render.php
++++ b/src/render.php
+@@ -6,7 +6,9 @@ $todos = get_transient('my_todo_list');
+ 
+ ?>
+ <div 	
+-	<?php echo get_block_wrapper_attributes(); ?>	
++	<?php echo get_block_wrapper_attributes(); ?>
++	data-wp-interactive="iapi-todos"
++	data-wp-init="callbacks.helloWorld"
+ >
+ 	<?php if (!empty($todos)): ?>
+ 		<ul>
+diff --git a/src/view.js b/src/view.js
+index f17827a..b46bcd0 100644
+--- a/src/view.js
++++ b/src/view.js
+@@ -1 +1,16 @@
+-console.log('This is the view.js file.');
++/**
++ * WordPress dependencies
++ */
++import { store } from '@wordpress/interactivity';
++
++store( 'iapi-todos', {
++	actions: {
++		// Add some magic here!
++	},
++	callbacks: {
++		// Add some magic here!
++		helloWorld: () => {
++			console.log('Hello world!');
++		}
++	},
++} );
