@@ -1,1 +1,119 @@
-import*as o from"@wordpress/interactivity";var r={d:(o,e)=>{for(var t in e)r.o(e,t)&&!r.o(o,t)&&Object.defineProperty(o,t,{enumerable:!0,get:e[t]})},o:(o,r)=>Object.prototype.hasOwnProperty.call(o,r)};var e,t;(0,(e={store:()=>o.store},t={},r.d(t,e),t).store)("iapi-todos",{actions:{},callbacks:{helloWorld:()=>{console.log("Hello world!!")}}});
+import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "@wordpress/interactivity";
+/******/ var __webpack_modules__ = ({
+
+/***/ "@wordpress/interactivity":
+/*!*******************************************!*\
+  !*** external "@wordpress/interactivity" ***!
+  \*******************************************/
+/***/ ((module) => {
+
+var x = (y) => {
+	var x = {}; __webpack_require__.d(x, y); return x
+} 
+var y = (x) => (() => (x))
+module.exports = __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__;
+
+/***/ })
+
+/******/ });
+/************************************************************************/
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __webpack_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
+/******/ 	}
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		// no module.id needed
+/******/ 		// no module.loaded needed
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
+/******/ 
+/************************************************************************/
+/******/ /* webpack/runtime/make namespace object */
+/******/ (() => {
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = (exports) => {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/ })();
+/******/ 
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!*********************!*\
+  !*** ./src/view.js ***!
+  \*********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
+/**
+ * WordPress dependencies
+ */
+
+const apiFetch = window.wp.apiFetch;
+const addTodo = (description, isComplete, dueDate) => {
+  return apiFetch({
+    path: '/wp-todo-api/v1/todo',
+    method: 'POST',
+    data: {
+      description,
+      is_completed: isComplete,
+      due_date: dueDate
+    }
+  });
+};
+console.log('init store');
+(0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('iapi-todos', {
+  state: {
+    new_todo: {
+      description: '',
+      due_date: ''
+    }
+  },
+  actions: {
+    addTodo: function* () {
+      const {
+        new_todo
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      yield addTodo(new_todo.description, false, new_todo.due_date);
+    }
+  },
+  callbacks: {
+    helloWorld: () => {
+      console.log('Hello world');
+    },
+    updateTodo: event => {
+      const {
+        attributes
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getElement)();
+      const {
+        new_todo
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      const fieldToUpdate = attributes.name;
+      if (fieldToUpdate) {
+        new_todo[fieldToUpdate] = event.target.value;
+      }
+      console.log((0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().new_todo);
+    }
+  }
+});
+})();
+
+
+//# sourceMappingURL=view.js.map

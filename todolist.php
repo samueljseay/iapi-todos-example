@@ -43,27 +43,27 @@ function initialize_todo_list_sample_data() {
 add_action('init', 'initialize_todo_list_sample_data');
 
 function my_todo_list_register_routes() {
-	register_rest_route('my-todo-list/v1', '/todo/(?P<id>\d+)', array(
+	register_rest_route('wp-todo-api/v1', '/todo/(?P<id>\d+)', array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => 'my_todo_list_get_todo',
 			'permission_callback' => '__return_true',
 	));
-	register_rest_route('my-todo-list/v1', '/todo', array(
+	register_rest_route('wp-todo-api/v1', '/todo', array(
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => 'my_todo_list_create_todo',
 			'permission_callback' => '__return_true',
 	));
-	register_rest_route('my-todo-list/v1', '/todo/(?P<id>\d+)', array(
+	register_rest_route('wp-todo-api/v1', '/todo/(?P<id>\d+)', array(
 			'methods' => WP_REST_Server::EDITABLE,
 			'callback' => 'my_todo_list_update_todo',
 			'permission_callback' => '__return_true',
 	));
-	register_rest_route('my-todo-list/v1', '/todo/(?P<id>\d+)', array(
+	register_rest_route('wp-todo-api/v1', '/todo/(?P<id>\d+)', array(
 			'methods' => WP_REST_Server::DELETABLE,
 			'callback' => 'my_todo_list_delete_todo',
 			'permission_callback' => '__return_true',
 	));
-	register_rest_route('my-todo-list/v1', '/todos', array(
+	register_rest_route('wp-todo-api/v1', '/todos', array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => 'my_todo_list_get_todos',
 			'permission_callback' => '__return_true',
