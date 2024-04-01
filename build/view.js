@@ -1,7 +1,1 @@
-var __webpack_exports__ = {};
-/*!*********************!*\
-  !*** ./src/view.js ***!
-  \*********************/
-console.log('This is the view module!');
-
-//# sourceMappingURL=view.js.map
+import*as o from"@wordpress/interactivity";var r={d:(o,e)=>{for(var t in e)r.o(e,t)&&!r.o(o,t)&&Object.defineProperty(o,t,{enumerable:!0,get:e[t]})},o:(o,r)=>Object.prototype.hasOwnProperty.call(o,r)};var e,t;(0,(e={store:()=>o.store},t={},r.d(t,e),t).store)("iapi-todos",{actions:{},callbacks:{helloWorld:()=>{console.log("Hello world!!")}}});
