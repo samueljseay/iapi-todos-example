@@ -1,16 +1,1 @@
-/**
- * WordPress dependencies
- */
-import { store } from '@wordpress/interactivity';
-
-store( 'iapi-todos', {
-	actions: {
-		// Add some magic here!
-	},
-	callbacks: {
-		// Add some magic here!
-		helloWorld: () => {
-			console.log('Hello world!');
-		}
-	},
-} );
+console.log('This is the view.js file.');

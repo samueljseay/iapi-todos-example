@@ -6,9 +6,7 @@ $todos = get_transient('my_todo_list');
 
 ?>
 <div 	
-	<?php echo get_block_wrapper_attributes(); ?>
-	data-wp-interactive="iapi-todos"
-	data-wp-init="callbacks.helloWorld"
+	<?php echo get_block_wrapper_attributes(); ?>	
 >
 	<?php if (!empty($todos)): ?>
 		<ul>
