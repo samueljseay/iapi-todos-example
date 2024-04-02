@@ -36,21 +36,21 @@ $context = array(
 				<div data-wp-bind--hidden="!state.errorMessage">
 					<p>Something went wrong. <span data-wp-text="state.errorMessage"></span></p>
 				</div>
-				
-				<?php foreach ($todos as $todo): ?>
-						<li>
-								<?php echo esc_html($todo['description']); ?> - 
-								<strong><?php echo $todo['is_completed'] ? esc_html__('Completed', 'todolist') : esc_html__('Pending', 'todolist'); ?></strong> - 
-								Due: <?php echo esc_html($todo['due_date']); ?>
 
-								<div>
-									<label>Mark as completed: </label>
-									<input data-wp-on--change="callbacks.toggleComplete" value="<?php echo $todo['id']; ?>" type="checkbox" <?php echo $todo['is_completed'] ? 'checked' : ''; ?> />
-								</div>
+				<template data-wp-each="context.todos">
+					<li>
+						<span data-wp-text="context.item.description"></span> -
+						<strong data-wp-bind--hidden="context.item.is_completed">Pending</strong>
+						<strong data-wp-bind--hidden="!context.item.is_completed">Completed</strong> -
+						Due: <span data-wp-text="context.item.due_date"></span>
 
-								<hr />
-						</li>
-				<?php endforeach; ?>
+						<div>
+							<label>Mark as completed: </label>
+							<input data-wp-on--change="callbacks.toggleComplete" data-wp-bind--value="context.item.id" data-wp-bind--checked="context.item.is_completed" type="checkbox" />
+						</div>
+						<hr />
+					</li>	
+				</template>
 		</ul>
 	<?php else: ?>
 			<p><?php esc_html_e('No todos found.', 'todolist'); ?></p>

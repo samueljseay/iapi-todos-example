@@ -50,11 +50,13 @@ store( 'iapi-todos', {
 			
 			try {
 				yield artificialDelay(1000);
-				yield addTodo(new_todo.description, false, new_todo.due_date);
+				const todo = yield addTodo(new_todo.description, false, new_todo.due_date);
+				getContext().todos = [ ...getContext().todos, todo ];
 			} catch (error) {
 				getContext().errorMessage = `Could not add TODO: ${error.message}`;
 			}
 			
+			getContext().new_todo = { description: '', due_date: '' };
 			getContext().formIsProcessing = false;
 		}
 	},

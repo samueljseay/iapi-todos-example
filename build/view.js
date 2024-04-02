@@ -113,10 +113,15 @@ const updateTodo = todo => {
       } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
       try {
         yield artificialDelay(1000);
-        yield addTodo(new_todo.description, false, new_todo.due_date);
+        const todo = yield addTodo(new_todo.description, false, new_todo.due_date);
+        (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().todos = [...(0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().todos, todo];
       } catch (error) {
         (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().errorMessage = `Could not add TODO: ${error.message}`;
       }
+      (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().new_todo = {
+        description: '',
+        due_date: ''
+      };
       (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing = false;
     }
   },
