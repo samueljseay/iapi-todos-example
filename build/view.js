@@ -67,6 +67,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const apiFetch = window.wp.apiFetch;
+const artificialDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const addTodo = (description, isComplete, dueDate) => {
   return apiFetch({
     path: '/wp-todo-api/v1/todo',
@@ -91,18 +92,32 @@ const updateTodo = todo => {
 };
 (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('iapi-todos', {
   state: {
-    new_todo: {
-      description: '',
-      due_date: ''
+    get new_todo() {
+      return (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().new_todo;
     },
-    todos: []
+    get todos() {
+      return (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().todos;
+    },
+    get formIsProcessing() {
+      return (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing;
+    },
+    get errorMessage() {
+      return (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().errorMessage;
+    }
   },
   actions: {
     addTodo: function* () {
+      (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing = true;
       const {
         new_todo
       } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      yield addTodo(new_todo.description, false, new_todo.due_date);
+      try {
+        yield artificialDelay(1000);
+        yield addTodo(new_todo.description, false, new_todo.due_date);
+      } catch (error) {
+        (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().errorMessage = `Could not add TODO: ${error.message}`;
+      }
+      (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing = false;
     }
   },
   callbacks: {
@@ -122,16 +137,20 @@ const updateTodo = todo => {
       }
     },
     toggleComplete: function* (event) {
-      const {
-        todos
-      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing = true;
       const value = event.target.value;
       const isChecked = event.target.checked;
-      const todo = todos.find(todo => String(todo.id) === value);
-      yield updateTodo({
-        ...todo,
-        is_completed: isChecked
-      });
+      const todo = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().todos.find(todo => String(todo.id) === value);
+      try {
+        yield artificialDelay(1000);
+        yield updateTodo({
+          ...todo,
+          is_completed: isChecked
+        });
+      } catch (error) {
+        (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().errorMessage = `Could not update TODO: ${error.message}`;
+      }
+      (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().formIsProcessing = false;
     }
   }
 });

@@ -5,6 +5,8 @@ import { store, getElement, getContext } from '@wordpress/interactivity';
 
 const apiFetch = window.wp.apiFetch;
 
+const artificialDelay = (ms) => new Promise( resolve => setTimeout(resolve, ms) );
+
 const addTodo = (description, isComplete, dueDate) => {
 	return apiFetch({
 		path: '/wp-todo-api/v1/todo',
@@ -23,18 +25,37 @@ const updateTodo = (todo) => {
 
 store( 'iapi-todos', {
 	state: {
-		new_todo: {
-			description: '',
-			due_date: ''
+		get new_todo() {
+			return getContext().new_todo; 
 		},
-		todos: []
+		
+		get todos() {
+			return getContext().todos;
+		},
+		
+		get formIsProcessing() {
+			return getContext().formIsProcessing;
+		},
+
+		get errorMessage() {
+			return getContext().errorMessage;
+		}
 	},
 
 	actions: {
 		addTodo: function* () {
+			getContext().formIsProcessing = true;
+			
 			const { new_todo } = getContext();
 			
-			yield addTodo(new_todo.description, false, new_todo.due_date);
+			try {
+				yield artificialDelay(1000);
+				yield addTodo(new_todo.description, false, new_todo.due_date);
+			} catch (error) {
+				getContext().errorMessage = `Could not add TODO: ${error.message}`;
+			}
+			
+			getContext().formIsProcessing = false;
 		}
 	},
 
@@ -54,12 +75,20 @@ store( 'iapi-todos', {
 		},
 
 		toggleComplete: function *(event ) {
-			const { todos } = getContext();
+			getContext().formIsProcessing = true;
+			
 			const value = event.target.value;
 			const isChecked = event.target.checked;
-			const todo = todos.find( todo => String(todo.id) === value );
-			
-			yield updateTodo({...todo, is_completed: isChecked});
+			const todo = getContext().todos.find( todo => String(todo.id) === value );
+
+			try {
+				yield artificialDelay(1000);
+				yield updateTodo({...todo, is_completed: isChecked});
+			} catch (error) {
+				getContext().errorMessage = `Could not update TODO: ${error.message}`;
+			}
+
+			getContext().formIsProcessing = false;
 		}
 	},
 } );
