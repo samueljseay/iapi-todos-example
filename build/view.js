@@ -78,13 +78,24 @@ const addTodo = (description, isComplete, dueDate) => {
     }
   });
 };
-console.log('init store');
+const updateTodo = todo => {
+  return apiFetch({
+    path: `/wp-todo-api/v1/todo/${todo.id}`,
+    method: 'PUT',
+    data: {
+      description: todo.description,
+      is_completed: todo.is_completed,
+      due_date: todo.due_date
+    }
+  });
+};
 (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('iapi-todos', {
   state: {
     new_todo: {
       description: '',
       due_date: ''
-    }
+    },
+    todos: []
   },
   actions: {
     addTodo: function* () {
@@ -98,7 +109,7 @@ console.log('init store');
     helloWorld: () => {
       console.log('Hello world');
     },
-    updateTodo: event => {
+    updateForm: event => {
       const {
         attributes
       } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getElement)();
@@ -109,7 +120,18 @@ console.log('init store');
       if (fieldToUpdate) {
         new_todo[fieldToUpdate] = event.target.value;
       }
-      console.log((0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)().new_todo);
+    },
+    toggleComplete: function* (event) {
+      const {
+        todos
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      const value = event.target.value;
+      const isChecked = event.target.checked;
+      const todo = todos.find(todo => String(todo.id) === value);
+      yield updateTodo({
+        ...todo,
+        is_completed: isChecked
+      });
     }
   }
 });
