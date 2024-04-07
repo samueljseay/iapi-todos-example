@@ -8,7 +8,8 @@ wp_enqueue_script('wp-api-fetch');
 ?>
 <div 
 	data-wp-interactive="iapi-todos"	
-	<?php echo get_block_wrapper_attributes(); ?>
+	data-wp-init="callbacks.helloWorld"
+	<?php echo get_block_wrapper_attributes(); ?>	
 >
 	<p >
 		<?php if (!empty($todos)): ?>
