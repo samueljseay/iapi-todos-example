@@ -46,7 +46,7 @@ $context = array(
 
 				<div>
 					<label>Mark as completed: </label>
-					<input data-wp-bind--checked="context.item.is_completed" type="checkbox" />
+					<input data-wp-on--change="actions.toggleComplete" data-wp-bind--value="context.item.id" data-wp-bind--checked="context.item.is_completed" type="checkbox" />
 				</div>
 				<hr />
 			</li>	

@@ -12,6 +12,14 @@ const addTodo = (description, isComplete, dueDate) => {
 	});
 }
 
+const updateTodo = (todo) => {
+	return apiFetch({
+		path: `/wp-todo-api/v1/todo/${todo.id}`,
+		method: 'PUT',
+		data: { description: todo.description, is_completed: todo.is_completed, due_date: todo.due_date }
+	});
+}
+
 store( 'iapi-todos', {
 	actions: {
 		addTodo: function* () {					
@@ -29,6 +37,31 @@ store( 'iapi-todos', {
 			
 			// Clear the form.
 			context.new_todo = { description: '', due_date: '' };
+			context.formIsProcessing = false;
+		},
+
+		toggleComplete: function* (event) {
+			const context = getContext();
+			
+			context.formIsProcessing = true;
+			
+			const value = event.target.value;
+			const isChecked = event.target.checked;
+			const todo = context.todos.find( todo => String(todo.id) === value );
+
+			try {
+				yield updateTodo({...todo, is_completed: isChecked});
+				// update the todo
+				context.todos = context.todos.map( todo => {
+					if ( String(todo.id) === value ) {
+						return {...todo, is_completed: isChecked};
+					}
+					return todo;
+				});
+			} catch (error) {
+				context.errorMessage = `Could not update TODO: ${error.message}`;
+			}
+
 			context.formIsProcessing = false;
 		}
 	},
