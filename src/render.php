@@ -26,18 +26,18 @@ $context = array(
 >
 	<?php if (!empty($todos)): ?>
 		<ul>
-				<div data-wp-bind--hidden="state.formIsProcessing">
+				<div data-wp-bind--hidden="context.formIsProcessing">
 					<label>Add new todo:</label>
-					<input type="text" name="description" data-wp-on--input="callbacks.updateForm" data-wp-bind--value="state.new_todo.description" />
-					<input type="date" name="due_date" data-wp-on--input="callbacks.updateForm" data-wp-bind--value="state.new_todo.due_date" />
+					<input type="text" name="description" data-wp-on--input="callbacks.updateForm" data-wp-bind--value="context.new_todo.description" />
+					<input type="date" name="due_date" data-wp-on--input="callbacks.updateForm" data-wp-bind--value="context.new_todo.due_date" />
 					<button data-wp-on--click="actions.addTodo">Add</button>
 					<hr />
 				</div>
 
-				<div data-wp-bind--hidden="!state.formIsProcessing">Adding new todo...</div>
+				<div data-wp-bind--hidden="!context.formIsProcessing">Adding new todo...</div>
 
-				<div data-wp-bind--hidden="!state.errorMessage">
-					<p>Something went wrong. <span data-wp-text="state.errorMessage"></span></p>
+				<div data-wp-bind--hidden="!context.errorMessage">
+					<p>Something went wrong. <span data-wp-text="context.errorMessage"></span></p>
 				</div>
 
 				<template data-wp-each="context.todos">

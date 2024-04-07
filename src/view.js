@@ -24,40 +24,23 @@ const updateTodo = (todo) => {
 }
 
 store( 'iapi-todos', {
-	state: {
-		get new_todo() {
-			return getContext().new_todo; 
-		},
-		
-		get todos() {
-			return getContext().todos;
-		},
-		
-		get formIsProcessing() {
-			return getContext().formIsProcessing;
-		},
-
-		get errorMessage() {
-			return getContext().errorMessage;
-		}
-	},
+	state: {},
 
 	actions: {
-		addTodo: function* () {
-			getContext().formIsProcessing = true;
-			
-			const { new_todo } = getContext();
+		addTodo: function* () {					
+			const context = getContext();
+
+			context.formIsProcessing = true;
 			
 			try {
-				yield artificialDelay(1000);
-				const todo = yield addTodo(new_todo.description, false, new_todo.due_date);
-				getContext().todos = [ ...getContext().todos, todo ];
+				const todo = yield addTodo(context.new_todo.description, false, context.new_todo.due_date);
+				context.todos = [ ...context.todos, todo ];
 			} catch (error) {
-				getContext().errorMessage = `Could not add TODO: ${error.message}`;
+				context.errorMessage = `Could not add TODO: ${error.message}`;
 			}
 			
-			getContext().new_todo = { description: '', due_date: '' };
-			getContext().formIsProcessing = false;
+			context.new_todo = { description: '', due_date: '' };
+			context.formIsProcessing = false;
 		}
 	},
 
@@ -68,29 +51,30 @@ store( 'iapi-todos', {
 		
 		updateForm: (event) => {
 			const { attributes } = getElement();
-			const { new_todo } = getContext();
+			const context = getContext();
 			const fieldToUpdate = attributes.name;
 
 			if ( fieldToUpdate ) {
-				new_todo[fieldToUpdate] = event.target.value;
+				context.new_todo[fieldToUpdate] = event.target.value;
 			}
 		},
 
-		toggleComplete: function *(event ) {
-			getContext().formIsProcessing = true;
+		toggleComplete: function* (event) {
+			const context = getContext();
+			
+			context.formIsProcessing = true;
 			
 			const value = event.target.value;
 			const isChecked = event.target.checked;
-			const todo = getContext().todos.find( todo => String(todo.id) === value );
+			const todo = context.todos.find( todo => String(todo.id) === value );
 
 			try {
-				yield artificialDelay(1000);
 				yield updateTodo({...todo, is_completed: isChecked});
 			} catch (error) {
-				getContext().errorMessage = `Could not update TODO: ${error.message}`;
+				errorMessage = `Could not update TODO: ${error.message}`;
 			}
 
-			getContext().formIsProcessing = false;
+			context.formIsProcessing = false;
 		}
 	},
 } );
