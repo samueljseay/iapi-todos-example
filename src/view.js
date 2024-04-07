@@ -1,9 +1,37 @@
 import { store, getElement, getContext } from '@wordpress/interactivity';
 
+const apiFetch = window.wp.apiFetch;
+
+const artificialDelay = (ms) => new Promise( resolve => setTimeout(resolve, ms) );
+
+const addTodo = (description, isComplete, dueDate) => {
+	return apiFetch({
+		path: '/wp-todo-api/v1/todo',
+		method: 'POST',
+		data: { description, is_completed: isComplete, due_date: dueDate }
+	});
+}
+
 store( 'iapi-todos', {
 	actions: {
-		// Add some magic here!
+		addTodo: function* () {					
+			const context = getContext();
+
+			context.formIsProcessing = true;
+			
+			try {
+				yield artificialDelay(1000);
+				yield addTodo(context.new_todo.description, false, context.new_todo.due_date);
+			} catch (error) {
+				context.errorMessage = `Could not add TODO: ${error.message}`;
+			}
+			
+			// Clear the form.
+			context.new_todo = { description: '', due_date: '' };
+			context.formIsProcessing = false;
+		}		
 	},
+
 	callbacks: {
 		// Add some magic here!
 		helloWorld: () => {
@@ -25,5 +53,6 @@ store( 'iapi-todos', {
 
 			console.log(context.new_todo);
 		},
-	},
+	}
+		
 } );
