@@ -13,7 +13,7 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"build": "wp-scripts build --experimental-modules",
 		"start": "wp-scripts start --experimental-modules",
-		"step": "./bin/applyPatch.js"
+		"step": "./bin/goto-step.js"
 	},
 	"files": [
 		"[^.]*"
