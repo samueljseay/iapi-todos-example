@@ -67,6 +67,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const apiFetch = window.wp.apiFetch;
+
+//  Use this if you want to see the UI state updates like formIsProcessing.
 const artificialDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const addTodo = (description, isComplete, dueDate) => {
   return apiFetch({
