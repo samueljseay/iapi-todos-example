@@ -83,7 +83,8 @@ const addTodo = (description, isComplete, dueDate) => {
       context.formIsProcessing = true;
       try {
         yield artificialDelay(1000);
-        yield addTodo(context.new_todo.description, false, context.new_todo.due_date);
+        const todo = yield addTodo(context.new_todo.description, false, context.new_todo.due_date);
+        context.todos = [...context.todos, todo];
       } catch (error) {
         context.errorMessage = `Could not add TODO: ${error.message}`;
       }
